@@ -18,7 +18,7 @@ Run `/lint` in Claude Code Desktop to audit this vault for broken links, stale n
 - `Deal Types/` — PG and PMP deal mechanics and comparison
 - `Briefs/` — CTV, Programmatic, Social intake templates
 - `Projections/` — FY25 media plan numbers
-- `Operations/` — Tracking, measurement, targeting, admin/SLA, 26-27 RFI data, ad innovation, demographics, streaming consumption, CTV vetting, planning Q&A, Walgreens foot traffic
+- `Operations/` — Tracking, measurement, targeting, admin/SLA, 26-27 RFI data, ad innovation, demographics, streaming consumption, CTV vetting, planning Q&A, Walgreens foot traffic, agency RFIs (Publicis, Carat, OMD), buying guidelines (T-Mobile), CPM rate cards, FLA compliance (Capital One), historical 22-23 and 25-26 upfront data
 - `Creative/` — Creative specs and best practices
 
 ## Answering Conventions
@@ -47,3 +47,22 @@ Run `/lint` in Claude Code Desktop to audit this vault for broken links, stale n
 - Upweight/downweight media: DIO only
 - Max video length supported: :30s (:60s+ only via OLV, shorter preferred)
 - For Walgreens foot traffic measurement: InMarket ($200K, 10-14MM imps) vs Foursquare ($200K, 8-10MM imps, 30 locations min)
+- When discussing historical pricing, reference Site Direct CPM Rate Card 2024 ($33-$38 CTV, $22-$25 OLV) and OMD Clorox Partners RFI ($26.50-$36 CTV range)
+- When discussing agency capabilities responses, reference Multicultural RFI 2024 (Publicis), Carat Supplier Overview 2024 (Dentsu), OMD Clorox Partners RFI (OMD)
+- Canela is P&G approved vendor (confirmed in Carat Supplier Overview)
+- For Capital One campaigns: zero data targeting, zero algorithmic optimization — contextual only (FLA Compliance)
+- FLA attestation prohibits targeting based on 14 protected characteristics including obvious proxies (e.g., Univision viewership, Hispanic-focused media)
+- T-Mobile buying guidelines: IAS thresholds (100% site list, 95%+ suitability, 70%+ viewability, <1% fraud), freq caps 1x/hr 3x/day 15x/week
+- Historical OTT avails: 6M in 25-26 → 10M in 26-27
+- Historical SSP: SpotX (22-23) → Xandr/Magnite (26-27)
+- Canela 1P data: 76MM unique devices, 60M unique viewers, 500+ segmentation signals (Multicultural RFI 2024)
+- Measurement partners roster (broadest in Carat Overview): Cint, Comscore, Crossix, Disqo, Dynata, Foursquare, Groundtruth, IQVIA, J.D. Power, Kantar, Lumen, MRI, Nielsen, PlacedIQ, Upwave, Adelaide
+- iCTV format CPMs: $32.50/:15s, $39.50/:30s for all 4 formats (Overlay, Canvas, QR Codes, Carrusel) — from OMG 23 RFI
+- 40+ FAST channels available on Samsung TV+, Roku, Vizio, LG, Sling, Xumo, TCL, Rewarded
+- Canela competitive restriction: no competing AVOD platform ads on Canela properties
+- Purchase-based targeting confirmed (Target MC Overview) — enables retail media alignment
+- Look-alike targeting confirmed (Target MC Overview) — expands beyond contextual/behavioral
+- Canela.TV O&O monthly uniques: 11.2M; extension network: 33M; total: 55M (Target MC Overview)
+- OTT CPM range across all RFIs: $26.50-$40 depending on agency, deal type, and negotiation stage
+- Geo-targeting premium: +$1 CPM (OMG 23 RFI) — cheaper than behavioral (+$2.50)
+- DV monitoring accepted across all agencies; DV blocking consistently declined (monitoring only on O&O)

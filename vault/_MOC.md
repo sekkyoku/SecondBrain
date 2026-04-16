@@ -1,7 +1,7 @@
 ---
 type: moc
 title: "ALSAC × Canela Media — Second Brain"
-updated: 2026-04-13
+updated: 2026-04-16
 tags: [moc, alsac, canela-media, media-planning]
 ---
 
@@ -51,6 +51,33 @@ tags: [moc, alsac, canela-media, media-planning]
 - [[CTV Vetting Q&A]] — DMA guarantees, scatter CPMs ($37/:30s, $30/:15s), frequency, ops setup
 - [[Planning Questions Q&A]] — Minimums ($25K DIO/PG), AV tiers, BLS thresholds, retargeting, video limits
 - [[Walgreens Foot Traffic Measurement]] — InMarket vs Foursquare: $200K min, 4-week flights
+
+---
+
+## Agency RFIs & Rate Cards (Ingested April 2026)
+
+- [[Multicultural RFI 2024]] — Publicis/Zenith MC vendor assessment: 60M viewers, 76MM devices, 500+ segments
+- [[Digital Buying Guidelines 2025]] — T-Mobile buying guidelines: IAS thresholds, competitor separation, 13 suitability rules
+- [[Carat Supplier Overview 2024]] — Dentsu/Carat supplier assessment: P&G approved, 16 measurement partners
+- [[OMD Clorox Partners RFI]] — OMD/Clorox RFI: CPM ranges, 4.3MM monthly visitors, 40MM downloads
+- [[Site Direct CPM Rate Card 2024]] — 2024 site-direct pricing: CTV $33-$38, OLV $22-$25, Display $11-$14
+- [[OMG 23 CanelaTV RFI]] — OMG upfront RFI: iCTV CPMs ($32.50-$39.50), 40+ FAST channels, 6x/day freq cap
+- [[Target MC Partner Overview]] — Target MC cheat sheet: $35-$40 OTT CPMs, purchase-based targeting, 55M reach
+
+---
+
+## Historical Upfront Data
+
+- [[Programmatic RFI 25-26]] — Horizon 25-26 RFI: predecessor to 26-27, OTT avails 6M (now 10M)
+- [[Streaming Capabilities 22-23]] — Portal 22-23 baseline: 92% OTT, 95% VCR, 7 ads/hr, SpringServe
+- [[Streaming Upfront Guidelines 22-23]] — HMI 22-23 IO/programmatic terms, network IO blurbs, 3x/day freq minimum
+- [[FY24 Holiday DV Specs]] — Matterkind FY24 Holiday HA campaign specs (A+E + Canela)
+
+---
+
+## Compliance
+
+- [[FLA Compliance]] — Capital One Fair Lending Attestation: ECOA/FHA, 14 prohibited characteristics, zero data targeting for COF
 
 ---
 
