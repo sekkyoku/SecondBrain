@@ -1,6 +1,7 @@
 # SecondBrain — RFI & Rate Card Knowledge Base
 
 **SecondBrain — RFI & Rate Card Knowledge Base - User Guide**
+Repository: `git@github.com:sekkyoku/SecondBrain.git`
 Access: Open the `SecondBrain` folder in **Claude Code Desktop**
 
 ---
@@ -9,15 +10,243 @@ Access: Open the `SecondBrain` folder in **Claude Code Desktop**
 
 The SecondBrain RFI Knowledge Base is an internal Canela Media intelligence system that stores agency RFIs, rate cards, buying guidelines, compliance documents, and historical upfront data as structured Markdown notes. Instead of searching through email threads or shared drives, you ask questions in plain English and get instant, sourced answers — no database, no embeddings, no waiting.
 
-Claude Code Desktop reads the vault files directly. The entire knowledge base is version-controlled on GitHub and syncs automatically across machines every 5 minutes with no manual git commands required.
+Claude Code Desktop reads the vault files directly. The entire knowledge base is version-controlled on GitHub (source of truth) and syncs automatically across machines every 5 minutes. No git commands required for day-to-day use.
+
+```
+┌──────────────────────────┐   auto-sync every 5 min   ┌──────────────────────────┐
+│  Your Mac / PC           │ ◄──────── GitHub ────────► │  Teammate's Mac / PC     │
+│  ~/SecondBrain/vault     │      (source of truth)     │  ~/SecondBrain/vault     │
+│        ▲                 │                             │        ▲                 │
+│        │ reads & edits   │                             │        │ reads & edits   │
+│  Claude Code Desktop     │                             │  Claude Code Desktop     │
+└──────────────────────────┘                             └──────────────────────────┘
+```
 
 ---
 
-## Getting Started
+## Setup from Zero
 
-Open **Claude Code Desktop**, click **Open folder**, and select `~/SecondBrain`. That is all. Claude loads the vault and is ready to answer questions immediately.
+Follow these steps once per machine. After setup, you never touch a terminal again.
 
-The vault currently holds **23 notes** in the `Operations/` folder, covering agency capabilities, CPM rate cards, buying guidelines, compliance requirements, and historical upfront data going back to 2022.
+---
+
+### Prerequisites
+
+Install the following before running any commands. All have GUI installers.
+
+| Tool | macOS | Windows |
+|------|-------|---------|
+| **Git** | Pre-installed. Verify: open Terminal, type `git --version`. If missing, install [Git for Mac](https://git-scm.com/download/mac). | [Git for Windows](https://git-scm.com/download/win) — accept all defaults during install. |
+| **Claude Code Desktop** | [claude.com/download](https://claude.com/download) — requires a Claude **Pro, Max, or Team** account. | Same link. |
+
+---
+
+### macOS Setup
+
+Open **Terminal** (Spotlight → type `Terminal`). You will use it in two steps below, then never again.
+
+#### Step A — Generate an SSH key
+
+Paste this command and press Enter. Replace `yourname` with your name (no spaces):
+
+```bash
+ssh-keygen -t ed25519 -C "yourname@secondbrain-sync" -f ~/.ssh/id_ed25519 -N ""
+```
+
+Then add GitHub's server fingerprint so the first connection is trusted automatically:
+
+```bash
+ssh-keyscan github.com >> ~/.ssh/known_hosts
+```
+
+Print your public key — you will need it in the next step:
+
+```bash
+cat ~/.ssh/id_ed25519.pub
+```
+
+Copy the entire output (it starts with `ssh-ed25519` and ends with your name).
+
+#### Step B — Add the SSH key to GitHub
+
+1. Go to **github.com/settings/keys** (sign in with the `sekkyoku` account or your own if the repo has been forked).
+2. Click **New SSH key**.
+3. Give it a title (e.g., `My MacBook`).
+4. Paste the key you copied. Click **Add SSH key**.
+
+#### Step C — Run the one-line installer
+
+Back in Terminal, paste this and press Enter:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/sekkyoku/SecondBrain/main/scripts/setup.sh | bash
+```
+
+**What it does:**
+- Clones the vault to `~/SecondBrain`
+- Installs a launchd background service that pulls, commits, and pushes every 5 minutes
+- Logs to `~/SecondBrain/scripts/sync.log`
+
+Close Terminal. You are done with it.
+
+---
+
+### Windows Setup
+
+Open **PowerShell** (Start → type `PowerShell` → press Enter). You will use it in two steps below, then never again.
+
+#### Step A — Generate an SSH key
+
+Paste this command and press Enter. Replace `yourname` with your name (no spaces):
+
+```powershell
+ssh-keygen -t ed25519 -C "yourname@secondbrain-sync" -f "$env:USERPROFILE\.ssh\id_ed25519" -N '""'
+```
+
+Then add GitHub's server fingerprint:
+
+```powershell
+ssh-keyscan github.com >> "$env:USERPROFILE\.ssh\known_hosts"
+```
+
+Print your public key — you will need it in the next step:
+
+```powershell
+Get-Content "$env:USERPROFILE\.ssh\id_ed25519.pub"
+```
+
+Copy the entire output (it starts with `ssh-ed25519`).
+
+#### Step B — Add the SSH key to GitHub
+
+1. Go to **github.com/settings/keys** (sign in with the `sekkyoku` account or your own if the repo has been forked).
+2. Click **New SSH key**.
+3. Give it a title (e.g., `My Windows PC`).
+4. Paste the key you copied. Click **Add SSH key**.
+
+#### Step C — Run the one-line installer
+
+Back in PowerShell, paste this and press Enter:
+
+```powershell
+iwr -useb https://raw.githubusercontent.com/sekkyoku/SecondBrain/main/scripts/setup.ps1 | iex
+```
+
+**What it does:**
+- Clones the vault to `C:\Users\<you>\SecondBrain`
+- Installs a Task Scheduler task that pulls, commits, and pushes every 5 minutes
+- Logs to `C:\Users\<you>\SecondBrain\scripts\sync.log`
+
+Close PowerShell. You are done with it.
+
+---
+
+### Step D — Open the vault in Claude Code Desktop
+
+1. Launch **Claude Code Desktop**.
+2. Click **Open folder** (or `File → Open folder`).
+3. Select `~/SecondBrain` (macOS) or `C:\Users\<you>\SecondBrain` (Windows).
+
+> **Important:** Open the `SecondBrain` root folder, **not** the `vault/` subfolder. Claude Code uses the root `CLAUDE.md` to orient itself before navigating into the vault.
+
+Claude loads immediately. No indexing step, no wait. Start asking questions.
+
+---
+
+### Verify the sync is running
+
+After about 10 minutes, open `~/SecondBrain/scripts/sync.log` in any text editor. You should see timestamped `ok` lines:
+
+```
+[2026-04-21 14:30:01] ok
+[2026-04-21 14:35:01] ok
+[2026-04-21 14:40:01] ok
+```
+
+If you see `WARN: push failed` repeated three or more times, your SSH key may not be added to GitHub yet. Re-check Step B above.
+
+---
+
+## Manual Sync Commands
+
+The background service handles everything automatically. Use these commands only when you need to force an immediate sync — for example, right after ingesting a large batch of files or before a briefing where you need a teammate's latest changes.
+
+Open Terminal (macOS) or PowerShell (Windows) and run the relevant commands.
+
+---
+
+### Pull the latest data from GitHub (source of truth)
+
+Pulls all changes your teammates have pushed since your last sync.
+
+**macOS:**
+```bash
+git -C ~/SecondBrain pull origin main
+```
+
+**Windows:**
+```powershell
+git -C "$env:USERPROFILE\SecondBrain" pull origin main
+```
+
+---
+
+### Push your local changes to GitHub
+
+Commits any vault edits on your machine and pushes them immediately, without waiting 5 minutes.
+
+**macOS:**
+```bash
+git -C ~/SecondBrain add -A vault/ && \
+git -C ~/SecondBrain commit -m "manual sync: vault update $(date -u +%FT%TZ)" && \
+git -C ~/SecondBrain push origin main
+```
+
+**Windows:**
+```powershell
+$repo = "$env:USERPROFILE\SecondBrain"
+git -C $repo add -A vault/
+git -C $repo commit -m "manual sync: vault update $(Get-Date -Format 'yyyy-MM-ddTHH:mm:ssZ')"
+git -C $repo push origin main
+```
+
+---
+
+### Check what has changed locally (not yet pushed)
+
+Shows uncommitted edits sitting on your machine before you push.
+
+**macOS:**
+```bash
+git -C ~/SecondBrain status
+```
+
+**Windows:**
+```powershell
+git -C "$env:USERPROFILE\SecondBrain" status
+```
+
+---
+
+### See recent sync history
+
+Shows the last 10 commits — who synced what and when.
+
+**macOS:**
+```bash
+git -C ~/SecondBrain log --oneline -10
+```
+
+**Windows:**
+```powershell
+git -C "$env:USERPROFILE\SecondBrain" log --oneline -10
+```
+
+---
+
+## Getting Started (After Setup)
+
+Open **Claude Code Desktop** with the `SecondBrain` folder already loaded. The vault currently holds **23 notes** in the `Operations/` folder, covering agency capabilities, CPM rate cards, buying guidelines, compliance requirements, and historical upfront data going back to 2022.
 
 ---
 
@@ -56,6 +285,12 @@ When you receive a new RFI, rate card, or buying guidelines document, share the 
    /Users/you/Downloads/Agency_RFI_2026.xlsx
    ```
 
+   On Windows, use backslashes:
+   ```
+   Ingest this file into our second brain:
+   C:\Users\you\Downloads\Agency_RFI_2026.xlsx
+   ```
+
 3. Claude reads the file, pulls out all relevant data, and writes a new note to `vault/Operations/`. It will also flag if the file appears to be a duplicate of an existing note.
 
 **Supported file formats:** `.xlsx`, `.pptx`, `.pdf`, `.docx`, `.csv`
@@ -69,7 +304,7 @@ Ingest the following files into our second brain:
 /Users/you/Downloads/Capital_One_FLA_2026.pdf
 ```
 
-Each file produces its own vault note. Within 5 minutes, the background sync service commits and pushes the new notes to GitHub so all teammates receive them automatically.
+Each file produces its own vault note. Within 5 minutes, the background service commits and pushes the new notes to GitHub so all teammates receive them automatically.
 
 > **Important:** Do not manually create vault notes or edit frontmatter unless you are following the note schema in the [Vault Note Schema](#vault-note-schema--how-it-works) section below. Malformed notes will be caught by the lint check but may produce inaccurate answers in the interim.
 
@@ -128,7 +363,21 @@ The background sync service runs every 5 minutes on each machine and logs every 
 [2026-04-21 14:45:01] ok
 ```
 
-`WARN: push failed` lines are automatically retried on the next interval. If you see the same warning three or more times in a row, re-run the one-line install from [docs/SETUP.md](SETUP.md) to refresh credentials.
+`WARN: push failed` lines are automatically retried on the next interval. If you see the same warning three or more times in a row, re-check that your SSH public key is added to GitHub (Step B of setup above).
+
+---
+
+## Troubleshooting
+
+| Symptom | Fix |
+|---------|-----|
+| **Claude Code Desktop says "no context"** | You opened the wrong folder. Close and re-open `~/SecondBrain` (the root), not `vault/`. |
+| **Sync log shows `WARN: push failed` repeatedly** | SSH key not added to GitHub. Go to **github.com/settings/keys** and add the key from `~/.ssh/id_ed25519.pub`. |
+| **Sync log shows `WARN: pull failed`** | Merge conflict. Ask Claude: *"Check git status in SecondBrain and resolve any merge conflicts."* |
+| **`/lint` returns nothing** | Confirm `.claude/commands/lint.md` exists in the repo. If missing, re-run the installer from Step C. |
+| **Sync service stopped (macOS)** | In Terminal: `launchctl list \| grep secondbrain`. If empty, re-run Step C. |
+| **Sync service stopped (Windows)** | Open Task Scheduler → Task Scheduler Library → find `SecondBrainSync` → right-click → Enable. |
+| **New machine, existing GitHub account** | Repeat the full Setup from Zero steps. A new SSH key must be generated and added to GitHub for each machine. |
 
 ---
 
@@ -239,4 +488,4 @@ related: ["[[Site Direct CPM Rate Card 2024]]", "[[Programmatic RFI 26-27]]", "[
 
 ---
 
-*Built on Claude Code Desktop. Vault replaces RAG with direct-read Markdown context. Guide v1.0 — April 2026.*
+*Built on Claude Code Desktop. Vault replaces RAG with direct-read Markdown context. Guide v1.1 — April 2026.*
